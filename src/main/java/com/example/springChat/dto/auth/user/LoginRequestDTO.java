@@ -1,4 +1,4 @@
-package com.example.springChat.dto.auth;
+package com.example.springChat.dto.auth.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class LoginRequestDTO {
     @NotBlank
-    private String email;
+    private String username;
 
     @NotBlank
     private String password;

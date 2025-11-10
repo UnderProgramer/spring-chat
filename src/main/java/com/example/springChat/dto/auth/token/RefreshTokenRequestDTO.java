@@ -1,4 +1,4 @@
-package com.example.springChat.dto.auth;
+package com.example.springChat.dto.auth.token;
 
 import lombok.Getter;
 import lombok.Setter;

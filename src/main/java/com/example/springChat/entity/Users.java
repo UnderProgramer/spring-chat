@@ -26,7 +26,7 @@ public class Users {
     private String username;
 
     @NotBlank
-    private String password_hash;
+    private String password;
 
     @NotBlank
     private String email;

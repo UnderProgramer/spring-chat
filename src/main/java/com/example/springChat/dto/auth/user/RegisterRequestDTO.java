@@ -1,4 +1,4 @@
-package com.example.springChat.dto.auth;
+package com.example.springChat.dto.auth.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

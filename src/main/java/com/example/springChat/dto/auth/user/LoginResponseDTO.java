@@ -1,6 +1,5 @@
-package com.example.springChat.dto.auth;
+package com.example.springChat.dto.auth.user;
 
-import com.example.springChat.entity.Users;
 import lombok.*;
 
 @Getter
