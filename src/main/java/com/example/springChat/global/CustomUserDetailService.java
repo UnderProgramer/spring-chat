@@ -17,11 +17,11 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UserNotFound {
-        Users user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFound(("사용자를 찾을 수 없습니다: " + username)));
+        Users user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFound(("사용자를 찾을 수 없습니다: " + username)));
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
-                .password(user.getPassword_hash())
+                .password(user.getPassword())
                 .build();
     }
 }

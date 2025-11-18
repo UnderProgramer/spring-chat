@@ -1,35 +1,41 @@
 package com.example.springChat.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "messages")
+@Table(name = "chat_room")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Messages {
+public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long messageId;
+    private Long roomId;
+
+    @NotBlank
+    private String roomCode;
 
     @ManyToOne
     @JoinColumn(name="userId")
-    private Users author;
+    private Users owner;
 
-    private String message;
+    @NotBlank
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name="roomId")
-    private ChatRoom chatRoomId;
+    private String description;
+
+    private boolean isDeleted;
+
+    private boolean isPrivate;
 
     @CreatedDate
     private LocalDateTime createdAt;
