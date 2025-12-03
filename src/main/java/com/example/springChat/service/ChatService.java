@@ -10,11 +10,13 @@ import com.example.springChat.entity.Users;
 import com.example.springChat.exception.AlreadyExistsUsername;
 import com.example.springChat.exception.ChatRoomNotFound;
 import com.example.springChat.exception.UserNotFound;
+import com.example.springChat.global.utils.CryptoByAes;
 import com.example.springChat.repository.ChatRoomRepository;
 import com.example.springChat.repository.JoinChatRoomRepository;
 import com.example.springChat.repository.UserRepository;
 import com.example.springChat.repository.MessageRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class ChatService {
@@ -36,6 +39,8 @@ public class ChatService {
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final JoinChatRoomRepository joinChatRoomRepository;
+
+    private final CryptoByAes cryptoByAes;
 
     private static final String CHAR_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final SecureRandom random = new SecureRandom();
