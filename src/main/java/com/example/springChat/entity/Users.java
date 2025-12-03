@@ -2,7 +2,9 @@ package com.example.springChat.entity;
 
 import com.example.springChat.Enum.Role;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -20,6 +22,7 @@ import java.time.LocalDateTime;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="user_id")
     private Long userId;
 
     @NotBlank
@@ -31,7 +34,8 @@ public class Users {
     @NotBlank
     private String email;
 
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @LastModifiedDate

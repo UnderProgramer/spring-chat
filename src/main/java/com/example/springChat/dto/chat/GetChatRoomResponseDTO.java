@@ -1,4 +1,4 @@
-package com.example.springChat.dto;
+package com.example.springChat.dto.chat;
 
 import com.example.springChat.entity.ChatRoom;
 import lombok.*;
@@ -18,7 +18,7 @@ public class GetChatRoomResponseDTO {
         return GetChatRoomResponseDTO.builder()
                 .roomTitle(entity.getTitle())
                 .roomDescription(entity.getDescription())
-                .ownerName(entity.getOwner().getUsername())
+                .ownerName(entity.getUserId().getUsername())
                 .roomCode(entity.getRoomCode())
                 .build();
     }

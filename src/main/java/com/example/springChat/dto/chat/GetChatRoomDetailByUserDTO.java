@@ -1,4 +1,4 @@
-package com.example.springChat.dto;
+package com.example.springChat.dto.chat;
 
 import com.example.springChat.entity.ChatRoom;
 import lombok.*;

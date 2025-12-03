@@ -1,5 +1,6 @@
 package com.example.springChat.dto.auth.user;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class RegisterRequestDTO {
-    @NotBlank
+    @Email
     private String email;
     @NotBlank
     private String username;

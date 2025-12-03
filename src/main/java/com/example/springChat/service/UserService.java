@@ -18,7 +18,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -72,8 +71,7 @@ public class UserService {
                 .build();
     }
 
-    public GetUserDTO getUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    public GetUserDTO getUser(String username) {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFound("사용자를 찾을 수 없습니다."));
 
@@ -104,8 +102,7 @@ public class UserService {
     }
 
     @Transactional
-    public void patchPassword(PatchPasswordDTO dto) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    public void patchPassword(PatchPasswordDTO dto, String username) {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFound("사용자를 찾을 수 없습니다."));
         authenticationManager.authenticate(
@@ -117,8 +114,7 @@ public class UserService {
     }
 
     @Transactional
-    public RefreshTokenResponseDTO patchUser(PatchUserDTO dto) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    public RefreshTokenResponseDTO patchUser(PatchUserDTO dto, String username) {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFound("사용자를 찾을 수 없습니다."));
 

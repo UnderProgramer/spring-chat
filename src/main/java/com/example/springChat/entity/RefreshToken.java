@@ -21,7 +21,6 @@ public class RefreshToken {
     @NotBlank
     private String refreshToken;
 
-    @NotBlank
     private LocalDateTime expiredAt;
 
 }

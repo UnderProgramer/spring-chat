@@ -1,4 +1,4 @@
-package com.example.springChat.dto;
+package com.example.springChat.dto.chat;
 
 import lombok.*;
 
@@ -7,4 +7,5 @@ import lombok.*;
 public class CreateChatRoomRequestDTO {
     private String roomTitle;
     private String roomDescription;
+    private boolean isPrivate;
 }

@@ -1,38 +1,37 @@
 package com.example.springChat.entity;
 
-import com.example.springChat.global.utils.MessageCryptoConverter;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "messages")
-@Getter
+@Table(name="reports")
 @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Messages {
+public class Reports {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long messageId;
+    private Long reportId;
+
+    private String title;
+
+    private String reason;
 
     @ManyToOne
-    @JoinColumn(name="author")
-    private Users author;
-
-    @Convert(converter = MessageCryptoConverter.class)
-    private String message;
+    @JoinColumn(name="reported_user")
+    private Users reporter;
 
     @ManyToOne
     @JoinColumn(name="chat_room_id")
-    private ChatRoom chatRoomId;
+    private ChatRoom chatRoom;
 
-    @CreatedDate
+    @LastModifiedDate
     private LocalDateTime createdAt;
 }

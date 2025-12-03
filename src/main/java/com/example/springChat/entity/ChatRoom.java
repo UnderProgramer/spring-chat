@@ -19,14 +19,16 @@ import java.time.LocalDateTime;
 public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="room_id")
     private Long roomId;
 
+    @Column(name="room_code")
     @NotBlank
     private String roomCode;
 
     @ManyToOne
-    @JoinColumn(name="userId")
-    private Users owner;
+    @JoinColumn(name="user_id")
+    private Users userId;
 
     @NotBlank
     private String title;
