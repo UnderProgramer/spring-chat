@@ -18,7 +18,7 @@ public class GetChatRoomResponseDTO {
         return GetChatRoomResponseDTO.builder()
                 .roomTitle(entity.getTitle())
                 .roomDescription(entity.getDescription())
-                .ownerName(entity.getUserId().getUsername())
+                .ownerName(entity.getUser().getUsername())
                 .roomCode(entity.getRoomCode())
                 .build();
     }

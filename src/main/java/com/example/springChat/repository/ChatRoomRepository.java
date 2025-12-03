@@ -12,5 +12,5 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     Optional<ChatRoom> findByRoomCodeAndIsDeletedFalseAndIsPrivateFalse(String roomCode);
     Page<ChatRoom> findByIsDeletedFalseAndIsPrivateFalse(Pageable pageable);
     Optional<ChatRoom> findByRoomCode(String roomCode);
-    Page<ChatRoom> findByUserIdAndIsDeletedFalseAndIsPrivateFalse(Pageable pageable, Users owner);
+    Page<ChatRoom> findByUserAndIsDeletedFalseAndIsPrivateFalse(Pageable pageable, Users owner);
 }

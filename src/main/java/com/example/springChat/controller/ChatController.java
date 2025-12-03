@@ -71,8 +71,8 @@ public class ChatController {
 
     @PostMapping("/{roomCode}/join")
     public ResponseEntity<ApiResponse<Void>> joinRoom(@PathVariable String roomCode,
-                                                      @AuthenticationPrincipal UserDetails userDetails) {
-        chatService.joinRoom(roomCode, userDetails.getUsername());
+                                                      @AuthenticationPrincipal UserDetails userDetails) throws AccessDeniedException {
+        chatService.joinRoom(userDetails.getUsername(), roomCode);
         return ResponseEntity.ok(ApiResponse.ok("방에 입장했습니다."));
     }
 

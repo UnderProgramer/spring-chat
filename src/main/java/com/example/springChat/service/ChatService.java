@@ -15,7 +15,6 @@ import com.example.springChat.repository.JoinChatRoomRepository;
 import com.example.springChat.repository.UserRepository;
 import com.example.springChat.repository.MessageRepository;
 import lombok.AllArgsConstructor;
-import org.hibernate.mapping.Join;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +26,7 @@ import org.webjars.NotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,8 +40,8 @@ public class ChatService {
     private static final String CHAR_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final SecureRandom random = new SecureRandom();
 
-    private static String generateCode(int max) {
-        StringBuilder sb = new StringBuilder(max);
+    private static String generateCode() {
+        StringBuilder sb = new StringBuilder(15);
         for (int i = 0; i < 10; i++) {
             int idx = random.nextInt(CHAR_SET.length());
             sb.append(CHAR_SET.charAt(idx));
@@ -50,12 +50,8 @@ public class ChatService {
     }
 
     public CreateChatRoomResponseDTO create(CreateChatRoomRequestDTO dto) {
-        String roomCode = null;
-        if(dto.isPrivate()){
-            roomCode = generateCode(15);
-        }else{
-            roomCode = generateCode(10);
-        }
+        String roomCode = generateCode();
+
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -65,9 +61,9 @@ public class ChatService {
         ChatRoom chatRoom = ChatRoom.builder()
                 .roomCode(roomCode)
                 .title(dto.getRoomTitle())
-                .userId(user)
+                .user(user)
                 .description(dto.getRoomDescription())
-                .isPrivate(dto.isPrivate())
+                .isPrivate(dto.isPrivates())
                 .build();
 
         chatRoomRepository.save(chatRoom);
@@ -83,7 +79,7 @@ public class ChatService {
                 .orElseThrow(() -> new ChatRoomNotFound("방을 찾을 수 없습니다."));
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if (!chatRoom.getUserId().getUsername().contains(username)){
+        if (!chatRoom.getUser().getUsername().contains(username)){
             throw new AccessDeniedException("이 채팅방을 삭제할 수 없습니다");
         }
 
@@ -110,7 +106,7 @@ public class ChatService {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFound("사용자가 잘못 되었습니다."));
 
-        return chatRoomRepository.findByUserIdAndIsDeletedFalseAndIsPrivateFalse(pageable, user)
+        return chatRoomRepository.findByUserAndIsDeletedFalseAndIsPrivateFalse(pageable, user)
                 .map(GetChatRoomDetailByUserDTO::from);
     }
 
@@ -174,11 +170,15 @@ public class ChatService {
         );
     }
 
-    public void joinRoom(String username, String roomCode) {
+    public void joinRoom(String username, String roomCode) throws AccessDeniedException {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFound("잘못된 사용자"));
         ChatRoom chatRoom = chatRoomRepository.findByRoomCode(roomCode)
                 .orElseThrow(() -> new ChatRoomNotFound("잘못된 방 코드"));
+
+        if(chatRoom.isPrivate() && !Objects.equals(user.getUserId(), chatRoom.getUser().getUserId())) {
+            throw new AccessDeniedException("비공개 방입니다.");
+        }
 
         JoinChatRoom joinChatRoom = JoinChatRoom.builder()
                 .chatRoom(chatRoom)

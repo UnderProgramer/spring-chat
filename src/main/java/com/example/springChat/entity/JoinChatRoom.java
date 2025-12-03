@@ -22,6 +22,11 @@ import java.time.LocalDateTime;
 public class JoinChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "join_chat_seq",
+            sequenceName = "join_chat_seq",
+            allocationSize = 1
+    )
     private Long id;
 
     @ManyToOne

@@ -7,5 +7,5 @@ import lombok.*;
 public class CreateChatRoomRequestDTO {
     private String roomTitle;
     private String roomDescription;
-    private boolean isPrivate;
+    private boolean privates;
 }

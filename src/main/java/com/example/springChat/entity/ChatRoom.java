@@ -28,7 +28,7 @@ public class ChatRoom {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private Users userId;
+    private Users user;
 
     @NotBlank
     private String title;

@@ -12,14 +12,14 @@ public class GetChatRoomDetailByUserDTO {
     private String roomTitle;
     private String roomDescription;
     private String roomCode;
-    private boolean isPrivate;
+    private boolean privates;
 
     public static GetChatRoomDetailByUserDTO from(ChatRoom entity) {
         return GetChatRoomDetailByUserDTO.builder()
                 .roomTitle(entity.getTitle())
                 .roomDescription(entity.getDescription())
                 .roomCode(entity.getRoomCode())
-                .isPrivate(entity.isPrivate())
+                .privates(entity.isPrivate())
                 .build();
     }
 }
