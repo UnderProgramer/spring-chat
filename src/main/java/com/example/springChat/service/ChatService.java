@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ import java.nio.file.AccessDeniedException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -138,6 +140,12 @@ public class ChatService {
 
         ChatRoom room = chatRoomRepository.findByRoomCode(roomCode)
                 .orElseThrow(() -> new ChatRoomNotFound("잘못된 방에서 메시지를 요청함"));
+        Users user = userRepository.findByUsername(username).orElseThrow(
+                () -> new UserNotFound("잘못된 사용자 입니다.")
+        );
+
+        Optional<JoinChatRoom> isMember = joinChatRoomRepository.findByChatRoomAndUser(room, user);
+        if (isMember.isEmpty()) throw new UserNotFound("방의 참가자가 아닙니다.");
 
         Pageable pageable = PageRequest.of(0, pageSize + 1);
         Long nextCursor = null;

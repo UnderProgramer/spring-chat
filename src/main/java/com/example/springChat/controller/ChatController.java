@@ -41,7 +41,7 @@ public class ChatController {
     }
 
     @GetMapping("/{roomCode}/message")
-    public ResponseEntity<CursorResponse<MessageResponseDTO>> getMessages(@RequestParam Long cursorId,
+    public ResponseEntity<CursorResponse<MessageResponseDTO>> getMessages(@RequestParam(required = false) Long cursorId,
                                                                           @PathVariable String roomCode,
                                                                           @AuthenticationPrincipal UserDetails userDetails){
         return ResponseEntity.ok(chatService.getMessages(cursorId ,roomCode ,userDetails.getUsername()));
